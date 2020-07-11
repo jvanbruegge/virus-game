@@ -84,7 +84,7 @@ public class Player : MonoBehaviour {
         if (collision.name == "HazardTile") {
             this.isAlive = false;
             StartCoroutine(CreateExplosion());
-            GetComponentInChildren<SpriteRenderer>().enabled = false;
+            transform.position = initialPosition;
         }
     }
 
@@ -108,7 +108,6 @@ public class Player : MonoBehaviour {
         this.isAlive = true;
         transform.position = initialPosition;
         NextInstruction = 0;
-        GetComponentInChildren<SpriteRenderer>().enabled = true;
     }
 
     private void ExecuteMoveInstruction(EInstruction instruction) {
