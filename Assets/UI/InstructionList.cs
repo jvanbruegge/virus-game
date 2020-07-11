@@ -1,18 +1,28 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.InteropServices.ComTypes;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class InstructionList : MonoBehaviour
 {
-    private List<GameObject> instructions = new List<GameObject>();
+    [SerializeField]
+    private RectTransform content;
+    [SerializeField]
+    private RectTransform arrow;
 
-    public void AddInstruction(EInstruction instruction) {
-        this.instructions.Add(Instruction.Create(instruction, transform));
+    private List<GameObject> instructions = new List<GameObject>();
+    private Player player;
+
+    private const int height = 105;
+
+    private void Start() {
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
     }
 
-    public void PopInstruction() {
-        Destroy(this.instructions[0]);
-        this.instructions.RemoveAt(0);
+    private void Update() {
+        this.arrow.anchoredPosition = new Vector3(25, -25 - player.NextInstruction * height, 0);
+    }
+
+    public void AddInstruction(EInstruction instruction, int position) {
+        this.instructions.Insert(position, Instruction.Create(instruction, content));
+        (this.content.parent as RectTransform).sizeDelta = new Vector2(0, this.instructions.Count * height);
     }
 }

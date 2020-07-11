@@ -15,10 +15,9 @@ enum CurrentAnimation {
 
 public class Player : MonoBehaviour {
     [SerializeField]
-    private InstructionList ui;
-    [SerializeField]
     private Facing facing;
     private Animator animator;
+    private InstructionList ui;
 
     [SerializeField]
     private int deaths = 0;
@@ -26,27 +25,30 @@ public class Player : MonoBehaviour {
     private List<EInstruction> instructions = new List<EInstruction>();
 
     public float CurrentTimer { get; private set; }
+    public int NextInstruction { get; private set; }
 
-    private readonly List<EInstruction> nextInstructions = new List<EInstruction>();
-    public const float timer = 140f/60f;
+    public const float timer = 140f / 60f;
     private Vector3 initialPosition;
 
     private CurrentAnimation state = CurrentAnimation.None;
 
     private Vector3 move = new Vector3();
+    private bool isAlive = true;
 
     private void Awake() {
         this.initialPosition = new Vector3(transform.position.x, transform.position.y, transform.position.z);
         this.animator = GetComponent<Animator>();
+        this.ui = GameObject.FindGameObjectWithTag("UI").GetComponentInChildren<InstructionList>();
+        this.NextInstruction = 0;
+
+        this.AddInstruction(EInstruction.FWD, 0);
+        this.AddInstruction(EInstruction.FWD, 1);
+        this.AddInstruction(EInstruction.FWD, 2);
+        this.AddInstruction(EInstruction.FWD, 3);
+        this.AddInstruction(EInstruction.Kill, 4);
     }
 
     private void Start() {
-        this.nextInstructions.Add(EInstruction.FWD);
-        this.nextInstructions.Add(EInstruction.FWD);
-        this.nextInstructions.Add(EInstruction.FWD);
-        this.nextInstructions.Add(EInstruction.FWD);
-        this.nextInstructions.Add(EInstruction.Kill);
-
         this.deaths = -1;
         this.ResetPlayer();
     }
@@ -54,23 +56,34 @@ public class Player : MonoBehaviour {
     private void Update() {
         this.CurrentTimer += Time.deltaTime;
         if (CurrentTimer > timer) {
-            EInstruction instruction = this.PopInstruction();
-            this.nextInstructions.Add(instruction);
-            this.CurrentTimer = 0;
-            switch (instruction) {
-                case EInstruction.FWD:
-                case EInstruction.BWD: this.ExecuteMoveInstruction(instruction); break;
-                case EInstruction.Left:
-                    break;
-                case EInstruction.Right:
-                    break;
-                case EInstruction.Kill: this.ResetPlayer(); break;
+
+            if (!isAlive) {
+                this.ResetPlayer();
+            } else {
+                EInstruction instruction = this.instructions[NextInstruction++];
+                this.CurrentTimer = 0;
+
+                switch (instruction) {
+                    case EInstruction.FWD:
+                    case EInstruction.BWD: this.ExecuteMoveInstruction(instruction); break;
+                    case EInstruction.Left:
+                        break;
+                    case EInstruction.Right:
+                        break;
+                    case EInstruction.Kill: this.ResetPlayer(); break;
+                }
             }
         }
     }
 
+    private void OnTriggerEnter2D(Collider2D collision) {
+        if (collision.name == "HazardTile") {
+            this.isAlive = false;
+        }
+    }
+
     private void LateUpdate() {
-        if(move.sqrMagnitude != 0) {
+        if (move.sqrMagnitude != 0) {
             transform.position += move;
             move = new Vector3();
         }
@@ -79,19 +92,15 @@ public class Player : MonoBehaviour {
 
     private void ResetPlayer() {
         this.deaths++;
+        this.isAlive = true;
         transform.position = initialPosition;
-
-        foreach(EInstruction instruction in this.nextInstructions) {
-            this.AddInstruction(instruction);
-        }
-
-        this.nextInstructions.Clear();
+        NextInstruction = 0;
     }
 
     private void ExecuteMoveInstruction(EInstruction instruction) {
         bool down = (facing == Facing.Down && instruction == EInstruction.FWD) || (facing == Facing.Up && instruction == EInstruction.BWD);
 
-        if(down) {
+        if (down) {
             this.animator.SetTrigger("MoveDown");
             this.state = CurrentAnimation.MoveDown;
         } else {
@@ -100,21 +109,17 @@ public class Player : MonoBehaviour {
     }
 
     public void UpdatePosition() {
-        if(this.state == CurrentAnimation.MoveDown) {
+        if (!isAlive) {
+
+        }
+        if (this.state == CurrentAnimation.MoveDown) {
             move = new Vector3(0, -1, 0);
         }
         this.state = CurrentAnimation.None;
     }
 
-    private EInstruction PopInstruction() {
-        EInstruction ins = this.instructions[0];
-        this.instructions.RemoveAt(0);
-        this.ui.PopInstruction();
-        return ins;
-    }
-
-    private void AddInstruction(EInstruction instruction) {
-        this.instructions.Add(instruction);
-        this.ui.AddInstruction(instruction);
+    private void AddInstruction(EInstruction instruction, int position) {
+        this.instructions.Insert(position, instruction);
+        this.ui.AddInstruction(instruction, position);
     }
 }
