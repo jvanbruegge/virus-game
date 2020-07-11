@@ -23,7 +23,7 @@ public class Player : MonoBehaviour {
     public float CurrentTimer { get; private set; }
 
     private readonly List<EInstruction> nextInstructions = new List<EInstruction>();
-    public const int timer = 2;
+    public const float timer = 140f/60f;
     private Vector3 initialPosition;
 
     private void Start() {
