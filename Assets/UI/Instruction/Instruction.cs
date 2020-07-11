@@ -9,7 +9,8 @@ public enum EInstruction {
     FWD,
     BWD,
     Left,
-    Right
+    Right,
+    Kill
 }
 
 public class Instruction : MonoBehaviour {

@@ -5,18 +5,14 @@ using UnityEngine;
 
 public class InstructionList : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        Instruction.Create(EInstruction.FWD, transform);
-        Instruction.Create(EInstruction.BWD, transform);
-        Instruction.Create(EInstruction.Left, transform);
-        Instruction.Create(EInstruction.Right, transform);
+    private List<GameObject> instructions = new List<GameObject>();
+
+    public void AddInstruction(EInstruction instruction) {
+        this.instructions.Add(Instruction.Create(instruction, transform));
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    public void PopInstruction() {
+        Destroy(this.instructions[0]);
+        this.instructions.RemoveAt(0);
     }
 }
