@@ -11,29 +11,40 @@ public enum Facing {
 
 public class Player : MonoBehaviour {
     [SerializeField]
-    private Facing facing;
-    [SerializeField]
     private InstructionList ui;
-    private const int timer = 2;
     [SerializeField]
-    private float current_timer = 0f;
+    private Facing facing;
+
     [SerializeField]
-    private int deaths = -1;
+    private int deaths = 0;
     [SerializeField]
     private List<EInstruction> instructions = new List<EInstruction>();
 
+    public float CurrentTimer { get; private set; }
+
+    private readonly List<EInstruction> nextInstructions = new List<EInstruction>();
+    public const int timer = 2;
     private Vector3 initialPosition;
 
     private void Start() {
         this.initialPosition = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+
+        this.nextInstructions.Add(EInstruction.FWD);
+        this.nextInstructions.Add(EInstruction.FWD);
+        this.nextInstructions.Add(EInstruction.FWD);
+        this.nextInstructions.Add(EInstruction.FWD);
+        this.nextInstructions.Add(EInstruction.Kill);
+
+        this.deaths = -1;
         this.ResetPlayer();
     }
 
     private void Update() {
-        this.current_timer += Time.deltaTime;
-        if (current_timer > timer) {
+        this.CurrentTimer += Time.deltaTime;
+        if (CurrentTimer > timer) {
             EInstruction instruction = this.PopInstruction();
-            this.current_timer = 0;
+            this.nextInstructions.Add(instruction);
+            this.CurrentTimer = 0;
             switch (instruction) {
                 case EInstruction.FWD:
                 case EInstruction.BWD: this.ExecuteMoveInstruction(instruction); break;
@@ -50,11 +61,11 @@ public class Player : MonoBehaviour {
         this.deaths++;
         transform.position += initialPosition - transform.position;
 
-        this.AddInstruction(EInstruction.FWD);
-        this.AddInstruction(EInstruction.FWD);
-        this.AddInstruction(EInstruction.FWD);
-        this.AddInstruction(EInstruction.FWD);
-        this.AddInstruction(EInstruction.Kill);
+        foreach(EInstruction instruction in this.nextInstructions) {
+            this.AddInstruction(instruction);
+        }
+
+        this.nextInstructions.Clear();
     }
 
     private void ExecuteMoveInstruction(EInstruction instruction) {
