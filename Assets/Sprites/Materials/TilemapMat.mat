@@ -10,7 +10,7 @@ Material:
   m_Name: TilemapMat
   m_Shader: {fileID: -6465566751694194690, guid: b462a2d7f1314014e9599c3163b1d2f0,
     type: 3}
-  m_ShaderKeywords: 
+  m_ShaderKeywords: ETC1_EXTERNAL_ALPHA
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
