@@ -18,7 +18,7 @@ public class InstructionList : MonoBehaviour
     }
 
     private void Update() {
-        this.arrow.anchoredPosition = new Vector3(25, -25 - player.NextInstruction * height, 0);
+        this.arrow.anchoredPosition = new Vector3(40, -35 - player.NextInstruction * height, 0);
     }
 
     public void AddInstruction(EInstruction instruction, int position) {
