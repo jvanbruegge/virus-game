@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using TreeEditor;
 using UnityEngine;
 
 public enum Facing {
@@ -9,11 +8,17 @@ public enum Facing {
     Right
 }
 
+enum CurrentAnimation {
+    None,
+    MoveDown
+}
+
 public class Player : MonoBehaviour {
     [SerializeField]
     private InstructionList ui;
     [SerializeField]
     private Facing facing;
+    private Animator animator;
 
     [SerializeField]
     private int deaths = 0;
@@ -26,9 +31,16 @@ public class Player : MonoBehaviour {
     public const float timer = 140f/60f;
     private Vector3 initialPosition;
 
-    private void Start() {
-        this.initialPosition = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+    private CurrentAnimation state = CurrentAnimation.None;
 
+    private Vector3 move = new Vector3();
+
+    private void Awake() {
+        this.initialPosition = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+        this.animator = GetComponent<Animator>();
+    }
+
+    private void Start() {
         this.nextInstructions.Add(EInstruction.FWD);
         this.nextInstructions.Add(EInstruction.FWD);
         this.nextInstructions.Add(EInstruction.FWD);
@@ -57,9 +69,17 @@ public class Player : MonoBehaviour {
         }
     }
 
+    private void LateUpdate() {
+        if(move.sqrMagnitude != 0) {
+            transform.position += move;
+            move = new Vector3();
+        }
+
+    }
+
     private void ResetPlayer() {
         this.deaths++;
-        transform.position += initialPosition - transform.position;
+        transform.position = initialPosition;
 
         foreach(EInstruction instruction in this.nextInstructions) {
             this.AddInstruction(instruction);
@@ -69,15 +89,21 @@ public class Player : MonoBehaviour {
     }
 
     private void ExecuteMoveInstruction(EInstruction instruction) {
-        Vector3 move = new Vector3(
-            this.facing == Facing.Right ? 1 : (this.facing == Facing.Left ? -1 : 0),
-            this.facing == Facing.Up ? 1 : (this.facing == Facing.Down ? -1 : 0),
-            0
-        );
-        if (instruction == EInstruction.BWD) {
-            move *= -1;
+        bool down = (facing == Facing.Down && instruction == EInstruction.FWD) || (facing == Facing.Up && instruction == EInstruction.BWD);
+
+        if(down) {
+            this.animator.SetTrigger("MoveDown");
+            this.state = CurrentAnimation.MoveDown;
+        } else {
+            this.animator.SetTrigger("MoveUp");
         }
-        transform.position += move;
+    }
+
+    public void UpdatePosition() {
+        if(this.state == CurrentAnimation.MoveDown) {
+            move = new Vector3(0, -1, 0);
+        }
+        this.state = CurrentAnimation.None;
     }
 
     private EInstruction PopInstruction() {
