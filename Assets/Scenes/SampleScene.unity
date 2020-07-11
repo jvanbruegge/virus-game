@@ -1303,6 +1303,12 @@ PrefabInstance:
       propertyPath: ui
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 5924789769713449152, guid: 8e5994987c9e8ea4f86d8f69b0fef693,
+        type: 3}
+      propertyPath: explosion
+      value: 
+      objectReference: {fileID: 4585153568994838086, guid: 3e5f9d135c20f0e45b7a85abc6dbeb7d,
+        type: 3}
     - target: {fileID: 5924789769713449182, guid: 8e5994987c9e8ea4f86d8f69b0fef693,
         type: 3}
       propertyPath: m_Name

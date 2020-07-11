@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Security.Cryptography;
 using UnityEngine;
 
 public enum Facing {
@@ -16,6 +18,8 @@ enum CurrentAnimation {
 public class Player : MonoBehaviour {
     [SerializeField]
     private Facing facing;
+    [SerializeField]
+    private GameObject explosion;
     private Animator animator;
     private InstructionList ui;
 
@@ -79,7 +83,16 @@ public class Player : MonoBehaviour {
     private void OnTriggerEnter2D(Collider2D collision) {
         if (collision.name == "HazardTile") {
             this.isAlive = false;
+            StartCoroutine(CreateExplosion());
+            GetComponentInChildren<SpriteRenderer>().enabled = false;
         }
+    }
+
+    private IEnumerator CreateExplosion() {
+        GameObject exp = Instantiate(explosion);
+        exp.transform.position = transform.position + new Vector3(0.5f, -0.5f, 1);
+        yield return new WaitForSeconds(3f);
+        Destroy(exp);
     }
 
     private void LateUpdate() {
@@ -95,6 +108,7 @@ public class Player : MonoBehaviour {
         this.isAlive = true;
         transform.position = initialPosition;
         NextInstruction = 0;
+        GetComponentInChildren<SpriteRenderer>().enabled = true;
     }
 
     private void ExecuteMoveInstruction(EInstruction instruction) {
