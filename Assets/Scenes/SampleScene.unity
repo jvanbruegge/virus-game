@@ -1392,6 +1392,11 @@ PrefabInstance:
       propertyPath: m_Spacing
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 51394969108274390, guid: 2781d21ad3ef51d479bb9116141de695,
+        type: 3}
+      propertyPath: m_Padding.m_Top
+      value: 25
+      objectReference: {fileID: 0}
     - target: {fileID: 1587557632515552474, guid: 2781d21ad3ef51d479bb9116141de695,
         type: 3}
       propertyPath: m_AnchorMin.y
