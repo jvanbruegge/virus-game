@@ -90,7 +90,7 @@ public class Player : MonoBehaviour {
 
     private IEnumerator CreateExplosion() {
         GameObject exp = Instantiate(explosion);
-        exp.transform.position = transform.position + new Vector3(0.5f, -0.5f, 1);
+        exp.transform.position = transform.position + new Vector3(0.5f, -0.5f, -1);
         yield return new WaitForSeconds(3f);
         Destroy(exp);
     }
