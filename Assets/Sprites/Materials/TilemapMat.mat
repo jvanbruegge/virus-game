@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: SpriteGlow
+  m_Name: TilemapMat
   m_Shader: {fileID: -6465566751694194690, guid: b462a2d7f1314014e9599c3163b1d2f0,
     type: 3}
   m_ShaderKeywords: 
