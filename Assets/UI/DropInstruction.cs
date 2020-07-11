@@ -22,6 +22,7 @@ public class DropInstruction : MonoBehaviour, IDropHandler, IPointerEnterHandler
         // TODO: Add instruction for player
         Destroy(ghost);
         isDragging = false;
+        list.ghostIndex = -1;
     }
 
     public void OnPointerEnter(PointerEventData eventData) {
@@ -29,6 +30,7 @@ public class DropInstruction : MonoBehaviour, IDropHandler, IPointerEnterHandler
 
             ghost = Instantiate(eventData.pointerDrag, content);
             index = this.GetIndex(eventData);
+            list.ghostIndex = index;
             ghost.transform.SetSiblingIndex(index);
             LayoutRebuilder.ForceRebuildLayoutImmediate(content);
             isDragging = true;
@@ -41,6 +43,7 @@ public class DropInstruction : MonoBehaviour, IDropHandler, IPointerEnterHandler
             if(newIndex != index) {
                 ghost.transform.SetSiblingIndex(newIndex);
                 index = newIndex;
+                list.ghostIndex = index;
             }
         }
     }
@@ -51,6 +54,7 @@ public class DropInstruction : MonoBehaviour, IDropHandler, IPointerEnterHandler
                 Destroy(ghost);
             }
             isDragging = false;
+            list.ghostIndex = -1;
         }
     }
     private int GetIndex(PointerEventData eventData) {

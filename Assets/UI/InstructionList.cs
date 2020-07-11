@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class InstructionList : MonoBehaviour
-{
+public class InstructionList : MonoBehaviour {
     [SerializeField]
     private RectTransform content;
     [SerializeField]
@@ -11,6 +10,8 @@ public class InstructionList : MonoBehaviour
     private List<GameObject> instructions = new List<GameObject>();
     private Player player;
 
+    public int ghostIndex = -1;
+
     public const int height = 93;
 
     private void Start() {
@@ -18,7 +19,8 @@ public class InstructionList : MonoBehaviour
     }
 
     private void Update() {
-        this.arrow.anchoredPosition = new Vector3(40, -35 - player.NextInstruction * height, 0);
+        int ins = player.NextInstruction;
+        this.arrow.anchoredPosition = new Vector3(40, -35 - (player.NextInstruction + (ins < ghostIndex ? 0 : 1)) * height, 0);
     }
 
     public void AddInstruction(EInstruction instruction, int position) {
