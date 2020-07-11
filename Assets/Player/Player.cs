@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using TreeEditor;
 using UnityEngine;
 
 public enum Facing {
@@ -8,28 +9,47 @@ public enum Facing {
     Right
 }
 
-public enum State {
-    Alive,
-    Dead
-}
-
 public class Player : MonoBehaviour {
     [SerializeField]
     private Facing facing;
     [SerializeField]
     private InstructionList ui;
-
-    private const int timer = 3;
+    private const int timer = 2;
     [SerializeField]
     private float current_timer = 0f;
-
     [SerializeField]
-    private State state = State.Alive;
-
+    private int deaths = -1;
     [SerializeField]
     private List<EInstruction> instructions = new List<EInstruction>();
 
+    private Vector3 initialPosition;
+
     private void Start() {
+        this.initialPosition = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+        this.ResetPlayer();
+    }
+
+    private void Update() {
+        this.current_timer += Time.deltaTime;
+        if (current_timer > timer) {
+            EInstruction instruction = this.PopInstruction();
+            this.current_timer = 0;
+            switch (instruction) {
+                case EInstruction.FWD:
+                case EInstruction.BWD: this.ExecuteMoveInstruction(instruction); break;
+                case EInstruction.Left:
+                    break;
+                case EInstruction.Right:
+                    break;
+                case EInstruction.Kill: this.ResetPlayer(); break;
+            }
+        }
+    }
+
+    private void ResetPlayer() {
+        this.deaths++;
+        transform.position += initialPosition - transform.position;
+
         this.AddInstruction(EInstruction.FWD);
         this.AddInstruction(EInstruction.FWD);
         this.AddInstruction(EInstruction.FWD);
@@ -37,25 +57,6 @@ public class Player : MonoBehaviour {
         this.AddInstruction(EInstruction.Kill);
     }
 
-    private void Update() {
-        if (this.state == State.Alive) {
-            this.current_timer += Time.deltaTime;
-            if (current_timer > timer) {
-                EInstruction instruction = this.PopInstruction();
-                this.current_timer = 0;
-                switch (instruction) {
-                    case EInstruction.FWD:
-                    case EInstruction.BWD: this.ExecuteMoveInstruction(instruction); break;
-                    case EInstruction.Left:
-                        break;
-                    case EInstruction.Right:
-                        break;
-                    case EInstruction.Kill: this.state = State.Dead; break;
-                }
-            }
-
-        }
-    }
     private void ExecuteMoveInstruction(EInstruction instruction) {
         Vector3 move = new Vector3(
             this.facing == Facing.Right ? 1 : (this.facing == Facing.Left ? -1 : 0),
