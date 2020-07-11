@@ -11,7 +11,7 @@ public class InstructionList : MonoBehaviour
     private List<GameObject> instructions = new List<GameObject>();
     private Player player;
 
-    private const int height = 105;
+    public const int height = 93;
 
     private void Start() {
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();

@@ -85,6 +85,7 @@ public class Player : MonoBehaviour {
             this.isAlive = false;
             StartCoroutine(CreateExplosion());
             transform.position = initialPosition;
+            NextInstruction = 0;
         }
     }
 
