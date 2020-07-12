@@ -20,7 +20,7 @@ public class InstructionList : MonoBehaviour {
 
     private void Update() {
         int ins = player.NextInstruction;
-        this.arrow.anchoredPosition = new Vector3(40, -35 - (player.NextInstruction + (ins < ghostIndex ? 0 : 1)) * height, 0);
+        this.arrow.anchoredPosition = new Vector3(40, -35 - (player.NextInstruction + (ins < ghostIndex || ghostIndex == -1 ? 0 : 1)) * height, 0);
     }
 
     public void AddInstruction(EInstruction instruction, int position) {
