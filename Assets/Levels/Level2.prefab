@@ -1671,6 +1671,8 @@ MonoBehaviour:
   instructions: 0000000000000000020000000000000003000000000000000000000005000000
   numDeaths: 1
   numSteps: 10
+  spawn: {x: 17, y: 4, z: 0}
+  spawnFacing: 0
 --- !u!1 &9196525122421452234
 GameObject:
   m_ObjectHideFlags: 0

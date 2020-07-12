@@ -693,7 +693,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6139478281ada014e86dbac9f519a009, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  instructions: 
+  instructions: 0000000000000000000000000000000005000000
+  numDeaths: 2
+  numSteps: 19
+  spawn: {x: 16, y: -20, z: 0}
+  spawnFacing: 0
 --- !u!1 &7625336930001008553
 GameObject:
   m_ObjectHideFlags: 0
