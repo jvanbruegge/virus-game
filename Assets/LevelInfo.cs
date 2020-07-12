@@ -8,4 +8,5 @@ public class LevelInfo : MonoBehaviour
     public Vector3 spawn;
     public Facing spawnFacing;
     public GameObject[] nextLevelPath;
+    public GameObject center;
 }

@@ -1,6 +1,6 @@
-﻿using System.Collections;
+﻿using Cinemachine;
+using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.InteropServices.ComTypes;
 using UnityEngine;
 
 public enum Facing {
@@ -16,7 +16,8 @@ enum CurrentAnimation {
     MoveUp,
     MoveLeft,
     MoveRight,
-    TurnLeft
+    TurnLeft,
+    TurnRight
 }
 
 public class Player : MonoBehaviour {
@@ -32,6 +33,17 @@ public class Player : MonoBehaviour {
     private VictoryMenu victory;
     [SerializeField]
     private GameObject clock;
+    [SerializeField]
+    private CinemachineVirtualCamera vcam;
+    [SerializeField]
+    private GameObject despawn;
+    [SerializeField]
+    private GameObject trail;
+    [SerializeField]
+    private GameObject spawn;
+    [SerializeField]
+    private GameObject sprite;
+
     private Animator animator;
     private InstructionList ui;
     private Transform child;
@@ -83,6 +95,7 @@ public class Player : MonoBehaviour {
         this.CurrentTimer = 0;
         this.nextTransitionPoint = l.nextLevelPath[0].transform.position;
         this.clock.SetActive(true);
+        vcam.Follow = l.center.transform;
 
         int counter = 0;
         this.instructions.Clear();
@@ -119,7 +132,7 @@ public class Player : MonoBehaviour {
                         case EInstruction.BWD: this.ExecuteMoveInstruction(instruction); break;
                         case EInstruction.Left:
                         case EInstruction.Right: this.ExecuteTurnInstruction(instruction); break;
-                        case EInstruction.Kill: StartCoroutine(CreateExplosion()); this.ResetPlayer(); break;
+                        case EInstruction.Kill: StartCoroutine(CreateParticle(explosion)); this.ResetPlayer(); break;
                     }
                 }
             }
@@ -135,6 +148,9 @@ public class Player : MonoBehaviour {
                     nextTransitionPoint = levels[level].nextLevelPath[currentPathIndex].transform.position;
                 } else {
                     this.Spawn(this.level + 1);
+                    StartCoroutine(CreateParticle(despawn));
+                    this.trail.SetActive(false);
+                    this.sprite.SetActive(true);
                 }
             }
         }
@@ -143,16 +159,27 @@ public class Player : MonoBehaviour {
     public void Transition() {
         isTransitioning = true;
         this.lastTransitionPoint = transform.position;
+        StartCoroutine(CreateParticle(spawn));
+        this.trail.SetActive(true);
+        this.sprite.SetActive(false);
     }
 
     private void OnTriggerEnter2D(Collider2D collision) {
         if (collision.name == "HazardTile") {
             this.isAlive = false;
-            StartCoroutine(CreateExplosion());
+            StartCoroutine(CreateParticle(explosion));
             transform.position = initialPosition;
             NextInstruction = 0;
             DeathCounter++;
             inventory.ResetItems();
+            int childReset = 0;
+            switch (initialFacing) {
+                case Facing.Down: childReset = -90; break;
+                case Facing.Right: childReset = 0; break;
+                case Facing.Up: childReset = 90; break;
+                case Facing.Left: childReset = 180; break;
+            }
+            child.eulerAngles = new Vector3(0, 0, childReset);
         } else if (collision.name.EndsWith("Pickup")) {
             EInstruction ins = EInstruction.Kill;
             switch (collision.name) {
@@ -170,8 +197,8 @@ public class Player : MonoBehaviour {
         }
     }
 
-    private IEnumerator CreateExplosion() {
-        GameObject exp = Instantiate(explosion);
+    private IEnumerator CreateParticle(GameObject obj) {
+        GameObject exp = Instantiate(obj);
         exp.transform.position = transform.position + new Vector3(0.5f, -0.5f, -1);
         yield return new WaitForSeconds(3f);
         Destroy(exp);
@@ -231,7 +258,11 @@ public class Player : MonoBehaviour {
 
         Collider2D collider = Physics2D.OverlapBox(new Vector2(transform.position.x, transform.position.y) + dir, new Vector2(0.8f, 0.8f), 0, LayerMask.GetMask("Walls"));
         if (collider == null) {
-            this.animator.SetTrigger("Move");
+            if(instruction == EInstruction.FWD) {
+                this.animator.SetTrigger("Move");
+            } else {
+                this.animator.SetTrigger("MoveBwd");
+            }
         } else {
             this.animator.SetTrigger("TryMove");
             this.state = CurrentAnimation.None;
@@ -249,6 +280,8 @@ public class Player : MonoBehaviour {
             if (this.facing < 0) {
                 this.facing = Facing.Left;
             }
+            this.animator.SetTrigger("TurnRight");
+            this.state = CurrentAnimation.TurnRight;
         }
     }
 
@@ -263,6 +296,8 @@ public class Player : MonoBehaviour {
             move = new Vector3(1, 0, 0);
         } else if (this.state == CurrentAnimation.TurnLeft) {
             rotation = 90;
+        } else if (this.state == CurrentAnimation.TurnRight) {
+            rotation = -90;
         }
         this.state = CurrentAnimation.None;
     }

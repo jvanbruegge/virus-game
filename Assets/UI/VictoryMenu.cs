@@ -41,6 +41,7 @@ public class VictoryMenu : MonoBehaviour {
         string res = "This level is solvable with:\n";
         res += level.numDeaths + " Deaths, " + level.numSteps + " Steps\n";
         res += "\n";
+        res += "Your stats:\n";
         res += player.DeathCounter + " Deaths, " + player.StepCounter + " Steps";
         return res;
     }

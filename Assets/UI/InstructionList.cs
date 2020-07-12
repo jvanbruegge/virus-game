@@ -23,7 +23,7 @@ public class InstructionList : MonoBehaviour {
 
     private void Start() {
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
-        height = (content.GetChild(0).transform as RectTransform).rect.height;
+        height = (content.GetChild(0).transform as RectTransform).rect.height + 10;
     }
 
     private void Update() {
