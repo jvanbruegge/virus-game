@@ -195,7 +195,7 @@ public class Player : MonoBehaviour {
     public void AddInstruction(EInstruction instruction, int position) {
         this.instructions.Insert(position, instruction);
         this.ui.AddInstruction(instruction, position);
-        if(position <= NextInstruction) {
+        if(position < NextInstruction) {
             NextInstruction++;
         }
     }
