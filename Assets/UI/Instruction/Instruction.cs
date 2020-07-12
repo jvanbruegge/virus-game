@@ -14,19 +14,16 @@ public enum EInstruction {
 }
 
 public class Instruction : MonoBehaviour {
-    public EInstruction instruction;
-    private static GameObject prefab = null;
-
-    private void Start() {
-        this.GetComponent<Image>().sprite = Resources.Load<Sprite>("Instruction/" + instruction);
-    }
+    private static GameObject[] prefabs = new GameObject[5];
 
     public static GameObject Create(EInstruction instruction, Transform parent) {
-        if(prefab == null) {
-            prefab = Resources.Load("Instruction/Instruction") as GameObject;
+        if(prefabs[0] == null) {
+            prefabs[0] = Resources.Load("Instruction/ButtonMove") as GameObject;
+            prefabs[1] = Resources.Load("Instruction/ButtonBWD") as GameObject;
+            prefabs[2] = Resources.Load("Instruction/ButtonLeft") as GameObject;
+            prefabs[3] = Resources.Load("Instruction/ButtonRight") as GameObject;
+            prefabs[4] = Resources.Load("Instruction/ButtonKill") as GameObject;
         }
-        GameObject obj = Instantiate(prefab, parent);
-        obj.GetComponent<Instruction>().instruction = instruction;
-        return obj;
+        return Instantiate(prefabs[(int)instruction], parent);
     }
 }

@@ -938,6 +938,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   drop: {fileID: 2069318004}
+  instruction: 2
 --- !u!225 &1351634021
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -1696,12 +1697,12 @@ PrefabInstance:
     - target: {fileID: 51394969108274390, guid: 2781d21ad3ef51d479bb9116141de695,
         type: 3}
       propertyPath: m_Spacing
-      value: 5
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 51394969108274390, guid: 2781d21ad3ef51d479bb9116141de695,
         type: 3}
       propertyPath: m_Padding.m_Top
-      value: 25
+      value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 1302483287417545611, guid: 2781d21ad3ef51d479bb9116141de695,
         type: 3}
@@ -1768,12 +1769,12 @@ PrefabInstance:
     - target: {fileID: 2316506583141957499, guid: 2781d21ad3ef51d479bb9116141de695,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 25
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 2316506583141957499, guid: 2781d21ad3ef51d479bb9116141de695,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -25
+      value: -35
       objectReference: {fileID: 0}
     - target: {fileID: 2316506583141957499, guid: 2781d21ad3ef51d479bb9116141de695,
         type: 3}
@@ -2063,6 +2064,11 @@ PrefabInstance:
       propertyPath: arrow
       value: 
       objectReference: {fileID: 756069275}
+    - target: {fileID: 8343185785492129608, guid: 2781d21ad3ef51d479bb9116141de695,
+        type: 3}
+      propertyPath: ghostIndex
+      value: -1
+      objectReference: {fileID: 0}
     - target: {fileID: 8928231185013863956, guid: 2781d21ad3ef51d479bb9116141de695,
         type: 3}
       propertyPath: m_AnchoredPosition.y

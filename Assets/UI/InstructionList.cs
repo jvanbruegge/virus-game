@@ -12,7 +12,12 @@ public class InstructionList : MonoBehaviour {
 
     public int ghostIndex = -1;
 
-    public const int height = 93;
+    public const int height = 98;
+    private Vector2 arrowPos;
+
+    private void Awake() {
+        arrowPos = this.arrow.anchoredPosition;
+    }
 
     private void Start() {
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
@@ -20,7 +25,7 @@ public class InstructionList : MonoBehaviour {
 
     private void Update() {
         int ins = player.NextInstruction;
-        this.arrow.anchoredPosition = new Vector3(40, -35 - (player.NextInstruction + (ins < ghostIndex || ghostIndex == -1 ? 0 : 1)) * height, 0);
+        this.arrow.anchoredPosition = new Vector3(arrowPos.x, arrowPos.y - (player.NextInstruction + (ins < ghostIndex || ghostIndex == -1 ? 0 : 1)) * height, 0);
     }
 
     public void AddInstruction(EInstruction instruction, int position) {
