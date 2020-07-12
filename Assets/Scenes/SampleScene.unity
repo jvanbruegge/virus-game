@@ -1085,9 +1085,10 @@ GameObject:
   - component: {fileID: 2100732143}
   - component: {fileID: 2100732145}
   - component: {fileID: 2100732144}
+  - component: {fileID: 2100732146}
   m_Layer: 5
   m_Name: Collected Instructions
-  m_TagString: Untagged
+  m_TagString: Inventory
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1149,6 +1150,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2100732142}
   m_CullTransparentMesh: 0
+--- !u!225 &2100732146
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2100732142}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!224 &3343046042364816985 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6689253010805873313, guid: 13c75358d9816d345a3171503a1c2214,
@@ -2095,6 +2108,11 @@ PrefabInstance:
     - target: {fileID: 8264635855851206047, guid: 13c75358d9816d345a3171503a1c2214,
         type: 3}
       propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8264635855988158569, guid: 13c75358d9816d345a3171503a1c2214,
+        type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8956351961998460676, guid: 13c75358d9816d345a3171503a1c2214,

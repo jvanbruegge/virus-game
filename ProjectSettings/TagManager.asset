@@ -6,6 +6,7 @@ TagManager:
   tags:
   - UI
   - InstructionList
+  - Inventory
   layers:
   - Default
   - TransparentFX

@@ -12,6 +12,7 @@ public enum Facing {
 enum CurrentAnimation {
     None,
     MoveDown,
+    MoveUp,
     TurnLeft
 }
 
@@ -135,6 +136,7 @@ public class Player : MonoBehaviour {
             this.state = CurrentAnimation.MoveDown;
         } else {
             this.animator.SetTrigger("MoveUp");
+            this.state = CurrentAnimation.MoveUp;
         }
     }
 
@@ -154,6 +156,8 @@ public class Player : MonoBehaviour {
     public void UpdatePosition() {
         if (this.state == CurrentAnimation.MoveDown) {
             move = new Vector3(0, -1, 0);
+        } else if (this.state == CurrentAnimation.MoveUp) {
+            move = new Vector3(0, 1, 0);
         } else if (this.state == CurrentAnimation.TurnLeft) {
             rotation = 90;            
         }
