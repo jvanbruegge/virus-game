@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TreeEditor;
 using UnityEngine;
 
 public enum Facing {
@@ -135,17 +136,30 @@ public class Player : MonoBehaviour {
         bool left = (facing == Facing.Left && instruction == EInstruction.FWD) || (facing == Facing.Right && instruction == EInstruction.BWD);
         bool right = (facing == Facing.Right && instruction == EInstruction.FWD) || (facing == Facing.Left && instruction == EInstruction.BWD);
 
+        Vector2 dir = new Vector2(0.5f, -0.5f);
+
         if (down) {
             this.state = CurrentAnimation.MoveDown;
+            dir += new Vector2(0, -1);
         } else if (left) {
             this.state = CurrentAnimation.MoveLeft;
+            dir += new Vector2(-1, 0);
         } else if (right) {
             this.state = CurrentAnimation.MoveRight;
+            dir += new Vector2(1, 0);
         } else {
             this.state = CurrentAnimation.MoveUp;
+            dir += new Vector2(0, 1);
+        }
+
+        Collider2D collider = Physics2D.OverlapBox(new Vector2(transform.position.x, transform.position.y) + dir, new Vector2(0.8f, 0.8f), 0, LayerMask.GetMask("Walls"));
+        if(collider == null) {
+            this.animator.SetTrigger("Move");
+        } else {
+            this.animator.SetTrigger("TryMove");
+            this.state = CurrentAnimation.None;
         }
         
-        this.animator.SetTrigger("Move");
     }
 
     private void ExecuteTurnInstruction(EInstruction instruction) {

@@ -514,7 +514,7 @@ GameObject:
   - component: {fileID: 4095750035462079281}
   - component: {fileID: 4095750035462079282}
   - component: {fileID: 1811037071}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: LevelTilemap
   m_TagString: Untagged
   m_Icon: {fileID: 0}

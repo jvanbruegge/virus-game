@@ -1240,6 +1240,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Level1
       objectReference: {fileID: 0}
+    - target: {fileID: 4095750035462079292, guid: a5771b4a1c404f7449b9d43539e345aa,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 5617629863326069898, guid: a5771b4a1c404f7449b9d43539e345aa,
         type: 3}
       propertyPath: m_LocalPosition.z
