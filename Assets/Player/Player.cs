@@ -193,10 +193,21 @@ public class Player : MonoBehaviour {
     }
 
     public void AddInstruction(EInstruction instruction, int position) {
+        this.AddInstruction(instruction, position, false);
+    }
+    public void AddInstruction(EInstruction instruction, int position, bool user) {
         this.instructions.Insert(position, instruction);
-        this.ui.AddInstruction(instruction, position);
+        this.ui.AddInstruction(instruction, position, user);
         if(position < NextInstruction) {
             NextInstruction++;
         }
+    }
+
+    public void RemoveInstruction(int index) {
+        if(NextInstruction > index) {
+            NextInstruction--;
+        }
+        this.instructions.RemoveAt(index);
+        this.ui.RemoveInstruction(index);
     }
 }

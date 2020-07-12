@@ -6,6 +6,8 @@ public class InstructionList : MonoBehaviour {
     private RectTransform content;
     [SerializeField]
     private RectTransform arrow;
+    [SerializeField]
+    private GameObject buttonX;
 
     private List<GameObject> instructions = new List<GameObject>();
     private Player player;
@@ -28,10 +30,20 @@ public class InstructionList : MonoBehaviour {
         this.arrow.anchoredPosition = new Vector3(arrowPos.x, arrowPos.y - (player.NextInstruction + (ins <= ghostIndex || ghostIndex == -1 ? 0 : 1)) * height, 0);
     }
 
-    public void AddInstruction(EInstruction instruction, int position) {
+    public void AddInstruction(EInstruction instruction, int position, bool user) {
         GameObject obj = Instruction.Create(instruction, content);
         this.instructions.Insert(position, obj);
         obj.transform.SetSiblingIndex(position);
         (this.content.parent as RectTransform).sizeDelta = new Vector2(0, this.instructions.Count * height);
+        if (user) {
+            GameObject x = Instantiate(buttonX, obj.transform);
+            x.GetComponent<DeleteInstruction>().index = position;
+        }
+    }
+
+    public void RemoveInstruction(int index) {
+        GameObject obj = this.instructions[index];
+        this.instructions.RemoveAt(index);
+        Destroy(obj);
     }
 }
