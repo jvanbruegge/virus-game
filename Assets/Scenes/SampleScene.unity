@@ -2300,6 +2300,11 @@ PrefabInstance:
       propertyPath: vcam
       value: 
       objectReference: {fileID: 140212390}
+    - target: {fileID: 7489098933796508503, guid: a7d6dd18e33d8fc44a30da60507d0cf1,
+        type: 3}
+      propertyPath: clock
+      value: 
+      objectReference: {fileID: 2094325579}
     - target: {fileID: 8428839828902084258, guid: a7d6dd18e33d8fc44a30da60507d0cf1,
         type: 3}
       propertyPath: m_textInfo.characterCount
@@ -2678,6 +2683,11 @@ PrefabInstance:
       propertyPath: victory
       value: 
       objectReference: {fileID: 6737167230106062894}
+    - target: {fileID: 5924789769713449152, guid: 8e5994987c9e8ea4f86d8f69b0fef693,
+        type: 3}
+      propertyPath: clock
+      value: 
+      objectReference: {fileID: 2094325579}
     - target: {fileID: 5924789769713449182, guid: 8e5994987c9e8ea4f86d8f69b0fef693,
         type: 3}
       propertyPath: m_Name

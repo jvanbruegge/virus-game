@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TreeEditor;
 using UnityEngine;
 
 public enum Facing {
@@ -29,6 +30,8 @@ public class Player : MonoBehaviour {
     private LevelInfo[] levels;
     [SerializeField]
     private VictoryMenu victory;
+    [SerializeField]
+    private GameObject clock;
     private Animator animator;
     private InstructionList ui;
     private Transform child;
@@ -53,6 +56,9 @@ public class Player : MonoBehaviour {
     private bool isAlive = false;
 
     public int level = 0;
+
+    public bool isTransitioning = false;
+    private Vector2 transitionDir = new Vector2();
 
     private void Awake() {
         this.Inventory = new List<EInstruction>();
@@ -86,27 +92,41 @@ public class Player : MonoBehaviour {
             pickup.GetComponent<BoxCollider2D>().enabled = true;
         }
 
+        this.isTransitioning = false;
         this.ResetPlayer();
     }
 
     private void Update() {
-        this.CurrentTimer += Time.deltaTime;
-        if (CurrentTimer > timer) {
+        if (!isTransitioning) {
+            this.CurrentTimer += Time.deltaTime;
+            if (CurrentTimer > timer) {
 
-            if (!isAlive) {
-                this.ResetPlayer();
-            } else {
-                EInstruction instruction = this.instructions[NextInstruction++];
-                this.CurrentTimer = 0;
-                this.StepCounter++;
+                if (!isAlive) {
+                    this.ResetPlayer();
+                } else {
+                    EInstruction instruction = this.instructions[NextInstruction++];
+                    this.CurrentTimer = 0;
+                    this.StepCounter++;
 
-                switch (instruction) {
-                    case EInstruction.FWD:
-                    case EInstruction.BWD: this.ExecuteMoveInstruction(instruction); break;
-                    case EInstruction.Left:
-                    case EInstruction.Right: this.ExecuteTurnInstruction(instruction); break;
-                    case EInstruction.Kill: StartCoroutine(CreateExplosion()); this.ResetPlayer(); break;
+                    switch (instruction) {
+                        case EInstruction.FWD:
+                        case EInstruction.BWD: this.ExecuteMoveInstruction(instruction); break;
+                        case EInstruction.Left:
+                        case EInstruction.Right: this.ExecuteTurnInstruction(instruction); break;
+                        case EInstruction.Kill: StartCoroutine(CreateExplosion()); this.ResetPlayer(); break;
+                    }
                 }
+            }
+        } else {
+            Collider2D[] colliders = Physics2D.OverlapBoxAll(
+                new Vector2(transform.position.x, transform.position.y),
+                new Vector2(2.8f, 2.8f),
+                0,
+                LayerMask.GetMask("Wires")
+            );
+            Collider2D next;
+            foreach(Collider2D col in colliders) {
+                Debug.Log(col.transform.position);
             }
         }
     }

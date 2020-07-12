@@ -9,6 +9,8 @@ public class VictoryMenu : MonoBehaviour {
     private GameObject screen;
     [SerializeField]
     private CinemachineVirtualCamera vcam;
+    [SerializeField]
+    private GameObject clock;
     private Player player;
 
     private void Awake() {
@@ -28,10 +30,11 @@ public class VictoryMenu : MonoBehaviour {
     }
 
     public void NextLevel() {
-        //player.Spawn(player.level + 1);
         screen.SetActive(false);
-        //Time.timeScale = 1;
+        clock.SetActive(false);
+        Time.timeScale = 1;
         vcam.Follow = player.transform.GetChild(0);
+        player.isTransitioning = true;
     }
 
     private string MakeStats(LevelInfo level) {
