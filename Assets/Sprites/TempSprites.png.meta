@@ -89,6 +89,18 @@ TextureImporter:
   - first:
       213: -1297849161078733340
     second: TempSprites_28
+  - first:
+      213: 3401717403162126157
+    second: TempSprites_29
+  - first:
+      213: 120481066641924997
+    second: TempSprites_30
+  - first:
+      213: -5505148422312274593
+    second: TempSprites_31
+  - first:
+      213: -851264420508047204
+    second: TempSprites_32
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -790,6 +802,90 @@ TextureImporter:
       bones: []
       spriteID: 4e50dd5701d1dfde0800000000000000
       internalID: -1297849161078733340
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TempSprites_29
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 224
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d472eb184f3553f20800000000000000
+      internalID: 3401717403162126157
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TempSprites_30
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 224
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5832a5b44e80ca100800000000000000
+      internalID: 120481066641924997
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TempSprites_31
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 192
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f55564c6da8c993b0800000000000000
+      internalID: -5505148422312274593
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TempSprites_32
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 192
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c9860bd0583bf24f0800000000000000
+      internalID: -851264420508047204
       vertices: []
       indices: 
       edges: []
