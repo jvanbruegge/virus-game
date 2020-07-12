@@ -46,6 +46,14 @@ public class PauseMenu : MonoBehaviour {
         pauseMenu.SetActive(isActive);
 
     }
+
+    public void QuitGame() {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
+    }
     
     public void ToggleHide() {
         this.pauseMenu.SetActive(!this.pauseMenu.activeSelf);
