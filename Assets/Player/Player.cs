@@ -124,7 +124,7 @@ public class Player : MonoBehaviour {
                 }
             }
         } else {
-            transitionTimer += Time.deltaTime * 8/(nextTransitionPoint - lastTransitionPoint).magnitude;
+            transitionTimer += Time.deltaTime * 10/(nextTransitionPoint - lastTransitionPoint).magnitude;
             if(transform.position != nextTransitionPoint) {
                 transform.position = Vector3.Lerp(lastTransitionPoint, nextTransitionPoint, transitionTimer);
             } else {
