@@ -28,6 +28,8 @@ public class Player : MonoBehaviour {
     private Inventory inventory;
     [SerializeField]
     private LevelInfo[] levels;
+    [SerializeField]
+    private VictoryMenu victory;
     private Animator animator;
     private InstructionList ui;
     private Transform child;
@@ -38,6 +40,7 @@ public class Player : MonoBehaviour {
     public float CurrentTimer { get; private set; }
     public int NextInstruction { get; private set; }
     public int DeathCounter { get; private set; }
+    public int StepCounter { get; private set; }
     public List<EInstruction> Inventory { get; private set; }
 
     public const float timer = 140f / 60f;
@@ -74,6 +77,7 @@ public class Player : MonoBehaviour {
             } else {
                 EInstruction instruction = this.instructions[NextInstruction++];
                 this.CurrentTimer = 0;
+                this.StepCounter++;
 
                 switch (instruction) {
                     case EInstruction.FWD:
@@ -106,7 +110,7 @@ public class Player : MonoBehaviour {
             inventory.AddItem(ins);
             Destroy(collision.gameObject);
         } else if (collision.name == "GoalTile") {
-            Debug.Log("Goal");
+            this.victory.Activate(levels[level]);
         }
     }
 

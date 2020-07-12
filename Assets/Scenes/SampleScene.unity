@@ -2435,6 +2435,11 @@ PrefabInstance:
       propertyPath: levels.Array.data[4]
       value: 
       objectReference: {fileID: 5401556181258588264}
+    - target: {fileID: 5924789769713449152, guid: 8e5994987c9e8ea4f86d8f69b0fef693,
+        type: 3}
+      propertyPath: victory
+      value: 
+      objectReference: {fileID: 6737167230106062894}
     - target: {fileID: 5924789769713449182, guid: 8e5994987c9e8ea4f86d8f69b0fef693,
         type: 3}
       propertyPath: m_Name
@@ -3142,6 +3147,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2781d21ad3ef51d479bb9116141de695, type: 3}
+--- !u!114 &6737167230106062894 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7489098933796508503, guid: a7d6dd18e33d8fc44a30da60507d0cf1,
+    type: 3}
+  m_PrefabInstance: {fileID: 2992211821381231420}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03e20ed3dffd9f94982e749c9b839e5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &8264635855803905272
 PrefabInstance:
   m_ObjectHideFlags: 0
