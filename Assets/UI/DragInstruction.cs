@@ -5,13 +5,14 @@ using UnityEngine.UI;
 public class DragInstruction : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IEndDragHandler, IDragHandler  {
     private RectTransform rect;
     private Canvas canvas;
-    private CanvasGroup group;
+    public CanvasGroup group;
     private RectTransform parent;
     private DropInstruction drop;
     public EInstruction instruction;
    
     private Vector3 initialPosition;
     private GameObject clone;
+    public bool dropped = false;
 
 
     private void Awake() {
@@ -26,16 +27,26 @@ public class DragInstruction : MonoBehaviour, IPointerDownHandler, IBeginDragHan
     }
 
     public void OnBeginDrag(PointerEventData eventData) {
-        group.blocksRaycasts = false;
-        group.alpha = 0.6f;
+        if (group.interactable == false) {
+            eventData.pointerDrag = null;
+        } else {
+            group.blocksRaycasts = false;
+            group.alpha = 0.6f;
+        }
     }
 
     public void OnEndDrag(PointerEventData eventData) {
         rect.anchoredPosition = initialPosition;
-        group.blocksRaycasts = true;
-        group.alpha = 1f;
         LayoutRebuilder.ForceRebuildLayoutImmediate(parent);
-            
+        group.blocksRaycasts = true;
+
+        if(dropped) {
+            group.alpha = 0.3f;
+            group.interactable = false;
+        } else {
+            group.alpha = 1f;
+        }
+        dropped = false;
     }
 
     public void OnPointerDown(PointerEventData eventData) {

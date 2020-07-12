@@ -3,13 +3,21 @@ using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
-    private List<GameObject> items = new List<GameObject>();
+    private List<DragInstruction> items = new List<DragInstruction>();
 
     public void AddItem(EInstruction item) {
         GameObject obj = Instruction.Create(item, transform);
-        items.Add(obj);
         obj.AddComponent<CanvasGroup>();
-        obj.AddComponent<DragInstruction>().instruction = item;
+        DragInstruction ins = obj.AddComponent<DragInstruction>();
+        ins.instruction = item;
+        items.Add(ins);
     }
-
+    
+    public void ResetItems() {
+        foreach(DragInstruction ins in items) {
+            ins.dropped = false;
+            ins.group.alpha = 1f;
+            ins.group.interactable = true;
+        }
+    }
 }

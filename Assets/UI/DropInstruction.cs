@@ -20,6 +20,7 @@ public class DropInstruction : MonoBehaviour, IDropHandler, IPointerEnterHandler
     }
 
     public void OnDrop(PointerEventData eventData) {
+        eventData.pointerDrag.GetComponent<DragInstruction>().dropped = true;
         Destroy(ghost);
         list.ghostIndex = -1;
         player.AddInstruction(eventData.pointerDrag.GetComponent<DragInstruction>().instruction, index);

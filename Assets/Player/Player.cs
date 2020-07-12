@@ -95,6 +95,7 @@ public class Player : MonoBehaviour {
             transform.position = initialPosition;
             NextInstruction = 0;
             DeathCounter++;
+            inventory.ResetItems();
         } else if (collision.name == "TurnLeftPickup") {
             Inventory.Add(EInstruction.Left);
             inventory.AddItem(EInstruction.Left);
@@ -129,6 +130,7 @@ public class Player : MonoBehaviour {
         this.isAlive = true;
         transform.position = initialPosition;
         NextInstruction = 0;
+        inventory.ResetItems();
     }
 
     private void ExecuteMoveInstruction(EInstruction instruction) {

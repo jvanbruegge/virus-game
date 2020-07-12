@@ -10,12 +10,12 @@ public class PauseMenu : MonoBehaviour {
     private AudioSource music;
     [SerializeField]
     private GameObject showMenu;
-    private CanvasGroup group;
+    private GameObject inventory;
 
     private bool isActive = false;
 
     private void Awake() {
-        this.group = GetComponent<CanvasGroup>();
+        this.inventory = GameObject.FindGameObjectWithTag("Inventory");
         ToggleMenu();
     }
 
@@ -27,16 +27,21 @@ public class PauseMenu : MonoBehaviour {
 
     public void ToggleMenu() {
         this.isActive = !isActive || showMenu.activeSelf;
-        group.blocksRaycasts = isActive;
 
         if (isActive) {
             Time.timeScale = 0;
             if(showMenu.activeSelf) {
                 showMenu.SetActive(false);
             }
+            foreach(CanvasGroup ins in inventory.GetComponentsInChildren<CanvasGroup>()) {
+                ins.interactable = false;
+            }
         } else {
             Time.timeScale = 1;
             showMenu.SetActive(false);
+            foreach(CanvasGroup ins in inventory.GetComponentsInChildren<CanvasGroup>()) {
+                ins.interactable = true;
+            }
         }
         pauseMenu.SetActive(isActive);
 
