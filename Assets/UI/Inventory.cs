@@ -8,8 +8,8 @@ public class Inventory : MonoBehaviour
     public void AddItem(EInstruction item) {
         GameObject obj = Instruction.Create(item, transform);
         items.Add(obj);
-        obj.AddComponent<DragInstruction>().instruction = item;
         obj.AddComponent<CanvasGroup>();
+        obj.AddComponent<DragInstruction>().instruction = item;
     }
 
 }
