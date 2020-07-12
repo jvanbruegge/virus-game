@@ -4,14 +4,15 @@ using UnityEngine;
 
 public enum Facing {
     Down,
+    Right,
     Up,
-    Left,
-    Right
+    Left
 }
 
 enum CurrentAnimation {
     None,
-    MoveDown
+    MoveDown,
+    TurnLeft
 }
 
 public class Player : MonoBehaviour {
@@ -23,6 +24,7 @@ public class Player : MonoBehaviour {
     private Inventory inventory;
     private Animator animator;
     private InstructionList ui;
+    private Transform child;
 
     [SerializeField]
     private List<EInstruction> instructions = new List<EInstruction>();
@@ -38,6 +40,7 @@ public class Player : MonoBehaviour {
     private CurrentAnimation state = CurrentAnimation.None;
 
     private Vector3 move = new Vector3();
+    private int rotation = 0;
     private bool isAlive = true;
 
     private void Awake() {
@@ -46,6 +49,7 @@ public class Player : MonoBehaviour {
         this.animator = GetComponent<Animator>();
         this.ui = GameObject.FindGameObjectWithTag("UI").GetComponentInChildren<InstructionList>();
         this.NextInstruction = 0;
+        this.child = transform.GetChild(0);
 
         this.AddInstruction(EInstruction.FWD, 0);
         this.AddInstruction(EInstruction.FWD, 1);
@@ -73,9 +77,7 @@ public class Player : MonoBehaviour {
                     case EInstruction.FWD:
                     case EInstruction.BWD: this.ExecuteMoveInstruction(instruction); break;
                     case EInstruction.Left:
-                        break;
-                    case EInstruction.Right:
-                        break;
+                    case EInstruction.Right: this.ExecuteTurnInstruction(instruction);  break;
                     case EInstruction.Kill: this.ResetPlayer(); break;
                 }
             }
@@ -108,13 +110,18 @@ public class Player : MonoBehaviour {
             transform.position += move;
             move = new Vector3();
         }
-
+        if (rotation != 0) {
+            child.eulerAngles += new Vector3(0, 0, rotation);
+            rotation = 0;
+        }
     }
 
     private void ResetPlayer() {
         if(isAlive) {
             this.DeathCounter++;
         }
+        this.facing = Facing.Down;
+        child.eulerAngles = new Vector3(0, 0, -90);
         this.isAlive = true;
         transform.position = initialPosition;
         NextInstruction = 0;
@@ -131,9 +138,24 @@ public class Player : MonoBehaviour {
         }
     }
 
+    private void ExecuteTurnInstruction(EInstruction instruction) {
+        if(instruction == EInstruction.Left) {
+            this.facing = (Facing) (((int)facing + 1) % 4);
+            this.animator.SetTrigger("TurnLeft");
+            this.state = CurrentAnimation.TurnLeft;
+        } else {
+            this.facing = (Facing) ((int)facing - 1);
+            if(this.facing < 0) {
+                this.facing = Facing.Left;
+            }
+        }
+    }
+
     public void UpdatePosition() {
         if (this.state == CurrentAnimation.MoveDown) {
             move = new Vector3(0, -1, 0);
+        } else if (this.state == CurrentAnimation.TurnLeft) {
+            rotation = 90;            
         }
         this.state = CurrentAnimation.None;
     }
