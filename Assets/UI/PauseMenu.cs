@@ -13,6 +13,10 @@ public class PauseMenu : MonoBehaviour {
 
     private bool isActive = false;
 
+    private void Awake() {
+        ToggleMenu();
+    }
+
     private void Update() {
         if (Input.GetKeyDown(KeyCode.Escape)) {
             this.ToggleMenu();
