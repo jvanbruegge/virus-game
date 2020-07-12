@@ -282,7 +282,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6139478281ada014e86dbac9f519a009, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  instructions: 
+  instructions: 000000000000000003000000030000000300000003000000000000000000000005000000
+  numDeaths: 0
+  numSteps: 8
 --- !u!1 &462056065817027308
 GameObject:
   m_ObjectHideFlags: 0
