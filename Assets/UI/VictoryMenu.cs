@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Reflection;
+﻿using Cinemachine;
 using TMPro;
 using UnityEngine;
 
@@ -9,6 +7,8 @@ public class VictoryMenu : MonoBehaviour {
     private TextMeshProUGUI text;
     [SerializeField]
     private GameObject screen;
+    [SerializeField]
+    private CinemachineVirtualCamera vcam;
     private Player player;
 
     private void Awake() {
@@ -28,9 +28,10 @@ public class VictoryMenu : MonoBehaviour {
     }
 
     public void NextLevel() {
-        player.Spawn(player.level + 1);
+        //player.Spawn(player.level + 1);
         screen.SetActive(false);
-        Time.timeScale = 1;
+        //Time.timeScale = 1;
+        vcam.Follow = player.transform.GetChild(0);
     }
 
     private string MakeStats(LevelInfo level) {

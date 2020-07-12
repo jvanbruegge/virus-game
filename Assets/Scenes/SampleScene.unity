@@ -2295,6 +2295,11 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 7489098933796508503, guid: a7d6dd18e33d8fc44a30da60507d0cf1,
+        type: 3}
+      propertyPath: vcam
+      value: 
+      objectReference: {fileID: 140212390}
     - target: {fileID: 8428839828902084258, guid: a7d6dd18e33d8fc44a30da60507d0cf1,
         type: 3}
       propertyPath: m_textInfo.characterCount
