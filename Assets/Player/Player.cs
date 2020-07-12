@@ -19,6 +19,8 @@ public class Player : MonoBehaviour {
     private Facing facing;
     [SerializeField]
     private GameObject explosion;
+    [SerializeField]
+    private Inventory inventory;
     private Animator animator;
     private InstructionList ui;
 
@@ -28,6 +30,7 @@ public class Player : MonoBehaviour {
     public float CurrentTimer { get; private set; }
     public int NextInstruction { get; private set; }
     public int DeathCounter { get; private set; }
+    public List<EInstruction> Inventory { get; private set; }
 
     public const float timer = 140f / 60f;
     private Vector3 initialPosition;
@@ -39,6 +42,7 @@ public class Player : MonoBehaviour {
 
     private void Awake() {
         this.initialPosition = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+        this.Inventory = new List<EInstruction>();
         this.animator = GetComponent<Animator>();
         this.ui = GameObject.FindGameObjectWithTag("UI").GetComponentInChildren<InstructionList>();
         this.NextInstruction = 0;
@@ -85,7 +89,11 @@ public class Player : MonoBehaviour {
             transform.position = initialPosition;
             NextInstruction = 0;
             DeathCounter++;
-        }
+        } else if (collision.name == "TurnLeftPickup") {
+            Inventory.Add(EInstruction.Left);
+            inventory.AddItem(EInstruction.Left);
+            Destroy(collision.gameObject);
+        } 
     }
 
     private IEnumerator CreateExplosion() {

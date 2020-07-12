@@ -7,7 +7,6 @@ public class DragInstruction : MonoBehaviour, IPointerDownHandler, IBeginDragHan
     private Canvas canvas;
     private CanvasGroup group;
     private RectTransform parent;
-    [SerializeField]
     private DropInstruction drop;
     public EInstruction instruction;
    
@@ -20,6 +19,7 @@ public class DragInstruction : MonoBehaviour, IPointerDownHandler, IBeginDragHan
         group = GetComponent<CanvasGroup>();
         parent = transform.parent as RectTransform;
 
+        drop = GameObject.FindGameObjectWithTag("InstructionList").GetComponent<DropInstruction>();
         canvas = GameObject.FindGameObjectWithTag("UI").GetComponent<Canvas>();
 
         initialPosition = rect.anchoredPosition;
