@@ -13,6 +13,8 @@ enum CurrentAnimation {
     None,
     MoveDown,
     MoveUp,
+    MoveLeft,
+    MoveRight,
     TurnLeft
 }
 
@@ -130,14 +132,20 @@ public class Player : MonoBehaviour {
 
     private void ExecuteMoveInstruction(EInstruction instruction) {
         bool down = (facing == Facing.Down && instruction == EInstruction.FWD) || (facing == Facing.Up && instruction == EInstruction.BWD);
+        bool left = (facing == Facing.Left && instruction == EInstruction.FWD) || (facing == Facing.Right && instruction == EInstruction.BWD);
+        bool right = (facing == Facing.Right && instruction == EInstruction.FWD) || (facing == Facing.Left && instruction == EInstruction.BWD);
 
         if (down) {
-            this.animator.SetTrigger("MoveDown");
             this.state = CurrentAnimation.MoveDown;
+        } else if (left) {
+            this.state = CurrentAnimation.MoveLeft;
+        } else if (right) {
+            this.state = CurrentAnimation.MoveRight;
         } else {
-            this.animator.SetTrigger("MoveUp");
             this.state = CurrentAnimation.MoveUp;
         }
+        
+        this.animator.SetTrigger("Move");
     }
 
     private void ExecuteTurnInstruction(EInstruction instruction) {
@@ -158,6 +166,10 @@ public class Player : MonoBehaviour {
             move = new Vector3(0, -1, 0);
         } else if (this.state == CurrentAnimation.MoveUp) {
             move = new Vector3(0, 1, 0);
+        } else if (this.state == CurrentAnimation.MoveLeft) {
+            move = new Vector3(-1, 0, 0);
+        } else if (this.state == CurrentAnimation.MoveRight) {
+            move = new Vector3(1, 0, 0);
         } else if (this.state == CurrentAnimation.TurnLeft) {
             rotation = 90;            
         }
