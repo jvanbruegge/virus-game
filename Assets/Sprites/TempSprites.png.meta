@@ -83,6 +83,12 @@ TextureImporter:
   - first:
       213: -1555666496379098663
     second: TempSprites_26
+  - first:
+      213: 4806442606719166621
+    second: TempSprites_27
+  - first:
+      213: -1297849161078733340
+    second: TempSprites_28
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -734,7 +740,7 @@ TextureImporter:
         width: 14
         height: 14
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -742,6 +748,48 @@ TextureImporter:
       bones: []
       spriteID: 9d9e8565099296ae0800000000000000
       internalID: -1555666496379098663
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TempSprites_27
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 256
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 4, y: 4, z: 4, w: 4}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d986ccec51ae3b240800000000000000
+      internalID: 4806442606719166621
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TempSprites_28
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 256
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4e50dd5701d1dfde0800000000000000
+      internalID: -1297849161078733340
       vertices: []
       indices: 
       edges: []
