@@ -49,6 +49,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   instructions: 0000000000000000000000000000000005000000
+  numDeaths: 0
+  numSteps: 5
 --- !u!1 &6427703035704737907
 GameObject:
   m_ObjectHideFlags: 0

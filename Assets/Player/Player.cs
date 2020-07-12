@@ -105,6 +105,8 @@ public class Player : MonoBehaviour {
             Inventory.Add(ins);
             inventory.AddItem(ins);
             Destroy(collision.gameObject);
+        } else if (collision.name == "GoalTile") {
+            Debug.Log("Goal");
         }
     }
 
