@@ -132,8 +132,11 @@ public class Player : MonoBehaviour {
         this.state = CurrentAnimation.None;
     }
 
-    private void AddInstruction(EInstruction instruction, int position) {
+    public void AddInstruction(EInstruction instruction, int position) {
         this.instructions.Insert(position, instruction);
         this.ui.AddInstruction(instruction, position);
+        if(position < NextInstruction) {
+            NextInstruction++;
+        }
     }
 }

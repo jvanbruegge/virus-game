@@ -9,9 +9,11 @@ public class DragInstruction : MonoBehaviour, IPointerDownHandler, IBeginDragHan
     private RectTransform parent;
     [SerializeField]
     private DropInstruction drop;
+    public EInstruction instruction;
    
     private Vector3 initialPosition;
     private GameObject clone;
+
 
     private void Awake() {
         rect = GetComponent<RectTransform>();

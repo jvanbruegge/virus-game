@@ -24,7 +24,9 @@ public class InstructionList : MonoBehaviour {
     }
 
     public void AddInstruction(EInstruction instruction, int position) {
-        this.instructions.Insert(position, Instruction.Create(instruction, content));
+        GameObject obj = Instruction.Create(instruction, content);
+        this.instructions.Insert(position, obj);
+        obj.transform.SetSiblingIndex(position);
         (this.content.parent as RectTransform).sizeDelta = new Vector2(0, this.instructions.Count * height);
     }
 }

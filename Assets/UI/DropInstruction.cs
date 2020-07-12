@@ -8,6 +8,7 @@ public class DropInstruction : MonoBehaviour, IDropHandler, IPointerEnterHandler
     [SerializeField]
     private RectTransform content;
     private Camera mainCamera;
+    private Player player;
 
     private GameObject ghost;
     private int index;
@@ -15,14 +16,14 @@ public class DropInstruction : MonoBehaviour, IDropHandler, IPointerEnterHandler
 
     private void Awake() {
         this.mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+        this.player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
     }
 
     public void OnDrop(PointerEventData eventData) {
-        Debug.Log("Drop");
-        // TODO: Add instruction for player
         Destroy(ghost);
-        isDragging = false;
         list.ghostIndex = -1;
+        player.AddInstruction(eventData.pointerDrag.GetComponent<DragInstruction>().instruction, index);
+        isDragging = false;
     }
 
     public void OnPointerEnter(PointerEventData eventData) {
