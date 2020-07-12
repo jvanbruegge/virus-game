@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using TreeEditor;
+using System.Runtime.InteropServices.ComTypes;
 using UnityEngine;
 
 public enum Facing {
@@ -57,8 +57,11 @@ public class Player : MonoBehaviour {
 
     public int level = 0;
 
-    public bool isTransitioning = false;
-    private Vector2 transitionDir = new Vector2();
+    private bool isTransitioning = false;
+    private float transitionTimer = 0;
+    private int currentPathIndex = 0;
+    private Vector3 nextTransitionPoint;
+    private Vector3 lastTransitionPoint;
 
     private void Awake() {
         this.Inventory = new List<EInstruction>();
@@ -78,6 +81,8 @@ public class Player : MonoBehaviour {
         this.StepCounter = 0;
         this.isAlive = false;
         this.CurrentTimer = 0;
+        this.nextTransitionPoint = l.nextLevelPath[0].transform.position;
+        this.clock.SetActive(true);
 
         int counter = 0;
         this.instructions.Clear();
@@ -93,6 +98,7 @@ public class Player : MonoBehaviour {
         }
 
         this.isTransitioning = false;
+        this.currentPathIndex = 0;
         this.ResetPlayer();
     }
 
@@ -118,17 +124,25 @@ public class Player : MonoBehaviour {
                 }
             }
         } else {
-            Collider2D[] colliders = Physics2D.OverlapBoxAll(
-                new Vector2(transform.position.x, transform.position.y),
-                new Vector2(2.8f, 2.8f),
-                0,
-                LayerMask.GetMask("Wires")
-            );
-            Collider2D next;
-            foreach(Collider2D col in colliders) {
-                Debug.Log(col.transform.position);
+            transitionTimer += Time.deltaTime * 8/(nextTransitionPoint - lastTransitionPoint).magnitude;
+            if(transform.position != nextTransitionPoint) {
+                transform.position = Vector3.Lerp(lastTransitionPoint, nextTransitionPoint, transitionTimer);
+            } else {
+                transitionTimer = 0;
+                if(currentPathIndex < levels[level].nextLevelPath.Length - 1) {
+                    currentPathIndex++;
+                    lastTransitionPoint = nextTransitionPoint;
+                    nextTransitionPoint = levels[level].nextLevelPath[currentPathIndex].transform.position;
+                } else {
+                    this.Spawn(this.level + 1);
+                }
             }
         }
+    }
+
+    public void Transition() {
+        isTransitioning = true;
+        this.lastTransitionPoint = transform.position;
     }
 
     private void OnTriggerEnter2D(Collider2D collision) {

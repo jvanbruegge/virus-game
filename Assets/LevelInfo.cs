@@ -7,4 +7,5 @@ public class LevelInfo : MonoBehaviour
     public int numSteps;
     public Vector3 spawn;
     public Facing spawnFacing;
+    public GameObject[] nextLevelPath;
 }

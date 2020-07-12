@@ -34,7 +34,7 @@ public class VictoryMenu : MonoBehaviour {
         clock.SetActive(false);
         Time.timeScale = 1;
         vcam.Follow = player.transform.GetChild(0);
-        player.isTransitioning = true;
+        player.Transition();
     }
 
     private string MakeStats(LevelInfo level) {
