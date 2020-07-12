@@ -90,7 +90,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2182233321706639604}
-  - component: {fileID: 6658316260971206599}
+  - component: {fileID: 247734279893478113}
   m_Layer: 0
   m_Name: TurnRightPickup
   m_TagString: Untagged
@@ -113,7 +113,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!61 &6658316260971206599
+--- !u!61 &247734279893478113
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -123,10 +123,10 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.5002022, y: -0.5022459}
+  m_Offset: {x: 0.5, y: -0.5}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -137,5 +137,5 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.71928406, y: 0.40235376}
+  m_Size: {x: 0.7, y: 0.4}
   m_EdgeRadius: 0

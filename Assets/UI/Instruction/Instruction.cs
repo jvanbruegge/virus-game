@@ -10,11 +10,12 @@ public enum EInstruction {
     BWD,
     Left,
     Right,
+    Dash,
     Kill
 }
 
 public class Instruction : MonoBehaviour {
-    private static GameObject[] prefabs = new GameObject[5];
+    private static GameObject[] prefabs = new GameObject[6];
 
     public static GameObject Create(EInstruction instruction, Transform parent) {
         if(prefabs[0] == null) {
@@ -22,7 +23,8 @@ public class Instruction : MonoBehaviour {
             prefabs[1] = Resources.Load("Instruction/ButtonBWD") as GameObject;
             prefabs[2] = Resources.Load("Instruction/ButtonLeft") as GameObject;
             prefabs[3] = Resources.Load("Instruction/ButtonRight") as GameObject;
-            prefabs[4] = Resources.Load("Instruction/ButtonKill") as GameObject;
+            prefabs[4] = Resources.Load("Instruction/ButtonDash") as GameObject;
+            prefabs[5] = Resources.Load("Instruction/ButtonKill") as GameObject;
         }
         return Instantiate(prefabs[(int)instruction], parent);
     }

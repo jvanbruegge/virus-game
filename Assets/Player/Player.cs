@@ -96,11 +96,18 @@ public class Player : MonoBehaviour {
             NextInstruction = 0;
             DeathCounter++;
             inventory.ResetItems();
-        } else if (collision.name == "TurnLeftPickup") {
-            Inventory.Add(EInstruction.Left);
-            inventory.AddItem(EInstruction.Left);
+        } else if (collision.name.EndsWith("Pickup")) {
+            EInstruction ins = EInstruction.Kill;
+            switch(collision.name) {
+                case "TurnLeftPickup": ins = EInstruction.Left; break;
+                case "TurnRightPickup": ins = EInstruction.Right; break;
+                case "DashPickup": ins = EInstruction.Dash; break;
+                case "BackwardsPickup": ins = EInstruction.BWD; break;
+            }
+            Inventory.Add(ins);
+            inventory.AddItem(ins);
             Destroy(collision.gameObject);
-        } 
+        }
     }
 
     private IEnumerator CreateExplosion() {
@@ -193,10 +200,21 @@ public class Player : MonoBehaviour {
     }
 
     public void AddInstruction(EInstruction instruction, int position) {
+        this.AddInstruction(instruction, position, false);
+    }
+    public void AddInstruction(EInstruction instruction, int position, bool user) {
         this.instructions.Insert(position, instruction);
-        this.ui.AddInstruction(instruction, position);
+        this.ui.AddInstruction(instruction, position, user);
         if(position < NextInstruction) {
             NextInstruction++;
         }
+    }
+
+    public void RemoveInstruction(int index) {
+        if(NextInstruction > index) {
+            NextInstruction--;
+        }
+        this.instructions.RemoveAt(index);
+        this.ui.RemoveInstruction(index);
     }
 }
