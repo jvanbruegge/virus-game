@@ -29,9 +29,13 @@ public class DropInstruction : MonoBehaviour, IDropHandler, IPointerEnterHandler
 
     public void OnPointerEnter(PointerEventData eventData) {
         if (eventData.dragging) {
-
             ghost = Instantiate(eventData.pointerDrag, content);
+            RectTransform r = ghost.transform as RectTransform;
+            r.sizeDelta = new Vector2(r.sizeDelta.x, InstructionList.height);
             index = this.GetIndex(eventData);
+            if(index == list.GetLength()) {
+                index--;
+            }
             list.ghostIndex = index;
             ghost.transform.SetSiblingIndex(index);
             LayoutRebuilder.ForceRebuildLayoutImmediate(content);
@@ -42,6 +46,9 @@ public class DropInstruction : MonoBehaviour, IDropHandler, IPointerEnterHandler
     public void OnPointerMove(PointerEventData eventData) {
         if (isDragging) {
             int newIndex = this.GetIndex(eventData);
+            if(index == list.GetLength()) {
+                index--;
+            }
             if(newIndex != index) {
                 ghost.transform.SetSiblingIndex(newIndex);
                 index = newIndex;
@@ -62,6 +69,6 @@ public class DropInstruction : MonoBehaviour, IDropHandler, IPointerEnterHandler
     private int GetIndex(PointerEventData eventData) {
         Vector2 relative;
         RectTransformUtility.ScreenPointToLocalPointInRectangle(transform as RectTransform, eventData.pointerCurrentRaycast.screenPosition, mainCamera, out relative);
-        return -((int)relative.y - InstructionList.height / 2 + 25) / InstructionList.height;
+        return (int)(-(relative.y - (InstructionList.height / 2f) + 35f) / InstructionList.height);
     }
 }
