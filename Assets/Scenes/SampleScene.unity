@@ -1823,6 +1823,76 @@ PrefabInstance:
       propertyPath: m_PixelsPerUnitMultiplier
       value: 0.2
       objectReference: {fileID: 0}
+    - target: {fileID: 4382191173987621938, guid: 2781d21ad3ef51d479bb9116141de695,
+        type: 3}
+      propertyPath: m_textInfo.characterCount
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 4382191173987621938, guid: 2781d21ad3ef51d479bb9116141de695,
+        type: 3}
+      propertyPath: m_textInfo.spaceCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4382191173987621938, guid: 2781d21ad3ef51d479bb9116141de695,
+        type: 3}
+      propertyPath: m_textInfo.wordCount
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4382191173987621938, guid: 2781d21ad3ef51d479bb9116141de695,
+        type: 3}
+      propertyPath: m_textInfo.lineCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4382191173987621938, guid: 2781d21ad3ef51d479bb9116141de695,
+        type: 3}
+      propertyPath: m_textInfo.pageCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4382191173987621938, guid: 2781d21ad3ef51d479bb9116141de695,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 4382191173987621938, guid: 2781d21ad3ef51d479bb9116141de695,
+        type: 3}
+      propertyPath: m_fontSizeBase
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 4382191173987621938, guid: 2781d21ad3ef51d479bb9116141de695,
+        type: 3}
+      propertyPath: m_fontStyle
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4382191173987621938, guid: 2781d21ad3ef51d479bb9116141de695,
+        type: 3}
+      propertyPath: m_fontColor.r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4382191173987621938, guid: 2781d21ad3ef51d479bb9116141de695,
+        type: 3}
+      propertyPath: m_fontColor.g
+      value: 0.6142149
+      objectReference: {fileID: 0}
+    - target: {fileID: 4382191173987621938, guid: 2781d21ad3ef51d479bb9116141de695,
+        type: 3}
+      propertyPath: m_fontColor.b
+      value: 0.745283
+      objectReference: {fileID: 0}
+    - target: {fileID: 4382191173987621938, guid: 2781d21ad3ef51d479bb9116141de695,
+        type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4290682112
+      objectReference: {fileID: 0}
+    - target: {fileID: 4382191173987621938, guid: 2781d21ad3ef51d479bb9116141de695,
+        type: 3}
+      propertyPath: m_overrideHtmlColors
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4382191173987621938, guid: 2781d21ad3ef51d479bb9116141de695,
+        type: 3}
+      propertyPath: m_enableVertexGradient
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4758125230454326037, guid: 2781d21ad3ef51d479bb9116141de695,
         type: 3}
       propertyPath: m_AnchorMin.x
