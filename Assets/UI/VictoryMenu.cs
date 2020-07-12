@@ -22,11 +22,15 @@ public class VictoryMenu : MonoBehaviour {
     }
 
     public void RepeatLevel() {
-
+        player.Spawn(player.level);
+        screen.SetActive(false);
+        Time.timeScale = 1;
     }
 
     public void NextLevel() {
-
+        player.Spawn(player.level + 1);
+        screen.SetActive(false);
+        Time.timeScale = 1;
     }
 
     private string MakeStats(LevelInfo level) {

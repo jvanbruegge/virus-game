@@ -20,4 +20,11 @@ public class Inventory : MonoBehaviour
             ins.group.interactable = true;
         }
     }
+
+    public void Clear() {
+        foreach(DragInstruction item in items) {
+            Destroy(item.gameObject);
+        }
+        items.Clear();
+    }
 }

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using TreeEditor;
 using UnityEngine;
 
@@ -45,6 +46,7 @@ public class Player : MonoBehaviour {
 
     public const float timer = 140f / 60f;
     private Vector3 initialPosition;
+    private Facing initialFacing;
 
     private CurrentAnimation state = CurrentAnimation.None;
 
@@ -52,19 +54,40 @@ public class Player : MonoBehaviour {
     private int rotation = 0;
     private bool isAlive = false;
 
-    [SerializeField]
-    private int level = 0;
+    public int level = 0;
 
     private void Awake() {
-        this.initialPosition = new Vector3(transform.position.x, transform.position.y, transform.position.z);
         this.Inventory = new List<EInstruction>();
         this.animator = GetComponent<Animator>();
         this.ui = GameObject.FindGameObjectWithTag("UI").GetComponentInChildren<InstructionList>();
-        this.NextInstruction = 0;
         this.child = transform.GetChild(0);
+        this.Spawn(0);
     }
 
-    private void Start() {
+    public void Spawn(int level) {
+        this.level = level % levels.Length;
+        LevelInfo l = levels[this.level];
+        this.initialPosition = l.spawn;
+        this.initialFacing = l.spawnFacing;
+        this.NextInstruction = 0;
+        this.DeathCounter = 0;
+        this.StepCounter = 0;
+        this.isAlive = false;
+        this.CurrentTimer = 0;
+
+        int counter = 0;
+        this.instructions.Clear();
+        this.ui.Clear();
+        this.inventory.Clear();
+        foreach (EInstruction instruction in l.instructions) {
+            this.AddInstruction(instruction, counter++);
+        }
+
+        foreach(GameObject pickup in GameObject.FindGameObjectsWithTag("Pickup")) {
+            pickup.transform.GetChild(0).gameObject.SetActive(true);
+            pickup.GetComponent<BoxCollider2D>().enabled = true;
+        }
+
         this.ResetPlayer();
     }
 
@@ -83,7 +106,7 @@ public class Player : MonoBehaviour {
                     case EInstruction.FWD:
                     case EInstruction.BWD: this.ExecuteMoveInstruction(instruction); break;
                     case EInstruction.Left:
-                    case EInstruction.Right: this.ExecuteTurnInstruction(instruction);  break;
+                    case EInstruction.Right: this.ExecuteTurnInstruction(instruction); break;
                     case EInstruction.Kill: StartCoroutine(CreateExplosion()); this.ResetPlayer(); break;
                 }
             }
@@ -100,7 +123,7 @@ public class Player : MonoBehaviour {
             inventory.ResetItems();
         } else if (collision.name.EndsWith("Pickup")) {
             EInstruction ins = EInstruction.Kill;
-            switch(collision.name) {
+            switch (collision.name) {
                 case "TurnLeftPickup": ins = EInstruction.Left; break;
                 case "TurnRightPickup": ins = EInstruction.Right; break;
                 case "DashPickup": ins = EInstruction.Dash; break;
@@ -108,7 +131,8 @@ public class Player : MonoBehaviour {
             }
             Inventory.Add(ins);
             inventory.AddItem(ins);
-            Destroy(collision.gameObject);
+            collision.transform.GetChild(0).gameObject.SetActive(false);
+            collision.GetComponent<BoxCollider2D>().enabled = false;
         } else if (collision.name == "GoalTile") {
             this.victory.Activate(levels[level]);
         }
@@ -133,19 +157,20 @@ public class Player : MonoBehaviour {
     }
 
     private void ResetPlayer() {
-        if(isAlive) {
+        if (isAlive) {
             this.DeathCounter++;
         }
-        if(this.instructions.Count == 0) {
-            int counter = 0;
-            foreach(EInstruction instruction in levels[level].instructions) {
-                this.AddInstruction(instruction, counter++);
-            }
-        }
 
-        this.facing = Facing.Down;
-        child.eulerAngles = new Vector3(0, 0, -90);
+        int childReset = 0;
+        switch (initialFacing) {
+            case Facing.Down: childReset = -90; break;
+            case Facing.Right: childReset = 0; break;
+            case Facing.Up: childReset = 90; break;
+            case Facing.Left: childReset = 180; break;
+        }
+        child.eulerAngles = new Vector3(0, 0, childReset);
         this.isAlive = true;
+        this.facing = initialFacing;
         transform.position = initialPosition;
         NextInstruction = 0;
         inventory.ResetItems();
@@ -173,23 +198,23 @@ public class Player : MonoBehaviour {
         }
 
         Collider2D collider = Physics2D.OverlapBox(new Vector2(transform.position.x, transform.position.y) + dir, new Vector2(0.8f, 0.8f), 0, LayerMask.GetMask("Walls"));
-        if(collider == null) {
+        if (collider == null) {
             this.animator.SetTrigger("Move");
         } else {
             this.animator.SetTrigger("TryMove");
             this.state = CurrentAnimation.None;
         }
-        
+
     }
 
     private void ExecuteTurnInstruction(EInstruction instruction) {
-        if(instruction == EInstruction.Left) {
-            this.facing = (Facing) (((int)facing + 1) % 4);
+        if (instruction == EInstruction.Left) {
+            this.facing = (Facing)(((int)facing + 1) % 4);
             this.animator.SetTrigger("TurnLeft");
             this.state = CurrentAnimation.TurnLeft;
         } else {
-            this.facing = (Facing) ((int)facing - 1);
-            if(this.facing < 0) {
+            this.facing = (Facing)((int)facing - 1);
+            if (this.facing < 0) {
                 this.facing = Facing.Left;
             }
         }
@@ -205,7 +230,7 @@ public class Player : MonoBehaviour {
         } else if (this.state == CurrentAnimation.MoveRight) {
             move = new Vector3(1, 0, 0);
         } else if (this.state == CurrentAnimation.TurnLeft) {
-            rotation = 90;            
+            rotation = 90;
         }
         this.state = CurrentAnimation.None;
     }
@@ -216,13 +241,13 @@ public class Player : MonoBehaviour {
     public void AddInstruction(EInstruction instruction, int position, bool user) {
         this.instructions.Insert(position, instruction);
         this.ui.AddInstruction(instruction, position, user);
-        if(position < NextInstruction) {
+        if (position < NextInstruction) {
             NextInstruction++;
         }
     }
 
     public void RemoveInstruction(int index) {
-        if(NextInstruction > index) {
+        if (NextInstruction > index) {
             NextInstruction--;
         }
         this.instructions.RemoveAt(index);

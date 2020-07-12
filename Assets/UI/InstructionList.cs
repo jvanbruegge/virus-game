@@ -46,4 +46,11 @@ public class InstructionList : MonoBehaviour {
         this.instructions.RemoveAt(index);
         Destroy(obj);
     }
+
+    public void Clear() {
+        foreach(GameObject obj in instructions) {
+            Destroy(obj);
+        }
+        instructions.Clear();
+    }
 }
