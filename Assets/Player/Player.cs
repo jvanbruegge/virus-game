@@ -96,11 +96,18 @@ public class Player : MonoBehaviour {
             NextInstruction = 0;
             DeathCounter++;
             inventory.ResetItems();
-        } else if (collision.name == "TurnLeftPickup") {
-            Inventory.Add(EInstruction.Left);
-            inventory.AddItem(EInstruction.Left);
+        } else if (collision.name.EndsWith("Pickup")) {
+            EInstruction ins = EInstruction.Kill;
+            switch(collision.name) {
+                case "TurnLeftPickup": ins = EInstruction.Left; break;
+                case "TurnRightPickup": ins = EInstruction.Right; break;
+                case "DashPickup": ins = EInstruction.Dash; break;
+                case "BackwardsPickup": ins = EInstruction.BWD; break;
+            }
+            Inventory.Add(ins);
+            inventory.AddItem(ins);
             Destroy(collision.gameObject);
-        } 
+        }
     }
 
     private IEnumerator CreateExplosion() {
