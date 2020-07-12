@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.Security.Cryptography;
 using UnityEngine;
 
 public enum Facing {
@@ -24,12 +23,11 @@ public class Player : MonoBehaviour {
     private InstructionList ui;
 
     [SerializeField]
-    private int deaths = 0;
-    [SerializeField]
     private List<EInstruction> instructions = new List<EInstruction>();
 
     public float CurrentTimer { get; private set; }
     public int NextInstruction { get; private set; }
+    public int DeathCounter { get; private set; }
 
     public const float timer = 140f / 60f;
     private Vector3 initialPosition;
@@ -53,7 +51,7 @@ public class Player : MonoBehaviour {
     }
 
     private void Start() {
-        this.deaths = -1;
+        this.DeathCounter = -1;
         this.ResetPlayer();
     }
 
@@ -86,6 +84,7 @@ public class Player : MonoBehaviour {
             StartCoroutine(CreateExplosion());
             transform.position = initialPosition;
             NextInstruction = 0;
+            DeathCounter++;
         }
     }
 
@@ -105,7 +104,9 @@ public class Player : MonoBehaviour {
     }
 
     private void ResetPlayer() {
-        this.deaths++;
+        if(isAlive) {
+            this.DeathCounter++;
+        }
         this.isAlive = true;
         transform.position = initialPosition;
         NextInstruction = 0;
@@ -123,9 +124,6 @@ public class Player : MonoBehaviour {
     }
 
     public void UpdatePosition() {
-        if (!isAlive) {
-
-        }
         if (this.state == CurrentAnimation.MoveDown) {
             move = new Vector3(0, -1, 0);
         }
