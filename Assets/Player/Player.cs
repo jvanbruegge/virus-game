@@ -82,7 +82,7 @@ public class Player : MonoBehaviour {
                     case EInstruction.BWD: this.ExecuteMoveInstruction(instruction); break;
                     case EInstruction.Left:
                     case EInstruction.Right: this.ExecuteTurnInstruction(instruction);  break;
-                    case EInstruction.Kill: this.ResetPlayer(); break;
+                    case EInstruction.Kill: StartCoroutine(CreateExplosion()); this.ResetPlayer(); break;
                 }
             }
         }
