@@ -26,6 +26,8 @@ public class Player : MonoBehaviour {
     private GameObject explosion;
     [SerializeField]
     private Inventory inventory;
+    [SerializeField]
+    private LevelInfo[] levels;
     private Animator animator;
     private InstructionList ui;
     private Transform child;
@@ -45,7 +47,10 @@ public class Player : MonoBehaviour {
 
     private Vector3 move = new Vector3();
     private int rotation = 0;
-    private bool isAlive = true;
+    private bool isAlive = false;
+
+    [SerializeField]
+    private int level = 0;
 
     private void Awake() {
         this.initialPosition = new Vector3(transform.position.x, transform.position.y, transform.position.z);
@@ -54,16 +59,9 @@ public class Player : MonoBehaviour {
         this.ui = GameObject.FindGameObjectWithTag("UI").GetComponentInChildren<InstructionList>();
         this.NextInstruction = 0;
         this.child = transform.GetChild(0);
-
-        this.AddInstruction(EInstruction.FWD, 0);
-        this.AddInstruction(EInstruction.FWD, 1);
-        this.AddInstruction(EInstruction.FWD, 2);
-        this.AddInstruction(EInstruction.FWD, 3);
-        this.AddInstruction(EInstruction.Kill, 4);
     }
 
     private void Start() {
-        this.DeathCounter = -1;
         this.ResetPlayer();
     }
 
@@ -132,6 +130,13 @@ public class Player : MonoBehaviour {
         if(isAlive) {
             this.DeathCounter++;
         }
+        if(this.instructions.Count == 0) {
+            int counter = 0;
+            foreach(EInstruction instruction in levels[level].instructions) {
+                this.AddInstruction(instruction, counter++);
+            }
+        }
+
         this.facing = Facing.Down;
         child.eulerAngles = new Vector3(0, 0, -90);
         this.isAlive = true;
